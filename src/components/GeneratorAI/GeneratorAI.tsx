@@ -11,6 +11,7 @@ const GeneratorAI : React.FC = () => {
     const [links, setLinks] = useState<any[]>([]);
     const [subject, setSubject] = useState('');
     const [prompt, setPrompt] = useState('');
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         if (roles === 0) {
@@ -28,9 +29,35 @@ const GeneratorAI : React.FC = () => {
         setPrompt(event.target.value);
     };
 
-    const handleGenerateClick = () => {
-        // Implement your logic for generating based on subject and prompt
+    const handleGenerateClick = async () => {
+        try {
+            const requestBody = {
+                UserId: id,
+                Name: subject,
+                Prompt: prompt,
+            };
+    
+            const response = await fetch('http://localhost:5214/api/Tests/create-test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            const data = await response.json();
+            setDescription(data.description);
+        } catch (error) {
+            console.error('Error:', error);
+            setDescription('Error occurred while fetching data from server.');
+        }
     };
+    
+    
 
     return (
         <div className="h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
@@ -56,9 +83,10 @@ const GeneratorAI : React.FC = () => {
             </div>
             <div className="w-full mx-auto mt-[2rem] p-[1rem]">
                 <div className="flex flex-col items-center justify-center">
-                    <input type="text" placeholder="Subject" value={subject} onChange={handleSubjectChange} className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-bluePurple mb-4 w-[80%]" />
-                    <input type="text" placeholder="Prompt" value={prompt} onChange={handlePromptChange} className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-bluePurple mb-4 w-[80%]   " />
+                    <input type="text" placeholder="Subject" value={subject} onChange={handleSubjectChange} className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-bluePurple mb-4 w-[60%]" />
+                    <input type="text" placeholder="Prompt" value={prompt} onChange={handlePromptChange} className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-bluePurple mb-4 w-[60%]" />
                     <button onClick={handleGenerateClick} className="px-4 py-2 bg-bluePurple text-white rounded-md hover:bg-opacity-80 focus:outline-none focus:bg-opacity-80">Generate</button>
+                    {description && <p className="mt-4 text-gray-800 bg-white w-[60%] p-[3rem] rounded-[1rem] font-montserrat text-[1.2rem] text-center">{description}</p>}
                 </div>
             </div>
         </div>
