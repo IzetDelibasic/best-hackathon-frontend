@@ -5,10 +5,12 @@ module.exports = {
     extend: {
       fontFamily: {
         workSans: 'Work Sans',
-        montserrat: 'Montserrat'
+        montserrat: 'Montserrat',
+        poppins: 'Poppins',
       },
       colors:{
         bluePurple: "#9272CF",
+        galaxy: "#D400C6",
       }
      },
   },

@@ -1,5 +1,8 @@
+// - React -
 import React, { useState, useEffect } from 'react';
+// - Icons -
 import { FaChalkboardTeacher } from "react-icons/fa";
+// - Constants -
 import { backgroundImage } from '../../constants/ImagesConstants';
 import { ParentLinks } from "../../constants/ParentLinks";
 import { TeacherLinks } from "../../constants/TeacherLinks";
