@@ -7,7 +7,7 @@ const LoginRegister: React.FC = () => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [role, setRole] = useState(1);
+  const [roles, setRole] = useState(0);
   const [isLogin, setIsLogin] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const LoginRegister: React.FC = () => {
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userData = { email, password };
+      const userData = { email, password, roles };
       const response = await fetch('http://localhost:5214/api/User/login', {
         method: 'POST',
         headers: {
@@ -29,7 +29,6 @@ const LoginRegister: React.FC = () => {
         throw new Error(errorData.message);
       }
 
-      // Sačuvaj podatke u localStorage
       const userDataJson = await response.json();
       localStorage.setItem('loggedInUserData', JSON.stringify(userDataJson));
       navigate('/teach-room');
@@ -41,8 +40,8 @@ const LoginRegister: React.FC = () => {
   const handleRegisterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userData = { email, password, firstName, lastName, role };
-      const response = await fetch('http://localhost:5214/api/User/register', {
+      const userData = { email, password, firstName, lastName, roles };
+      const response = await fetch('http://localhost:5214/api/User', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -58,9 +57,7 @@ const LoginRegister: React.FC = () => {
       setIsLogin(true);
       setErrorMessage('Registration successful. Please log in.');
 
-      // Sačuvaj podatke u localStorage
-      const userDataJson = await response.json();
-      localStorage.setItem('loggedInUserData', JSON.stringify(userDataJson));
+      localStorage.setItem('loggedInUserData', JSON.stringify(userData));
       navigate('/teach-room');
     } catch (error: any) {
       setErrorMessage(error.message);
@@ -104,12 +101,14 @@ const LoginRegister: React.FC = () => {
                 <div className="mb-4">
                   <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3" />
                 </div>
-                <div className="mb-4">
-                  <select value={role} onChange={(e) => setRole(parseInt(e.target.value))} className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3">
-                    <option value="1">Teacher</option>
-                    <option value="2">Parent</option>
-                  </select>
-                </div>
+                <select value={roles.toString()} onChange={(e) => {
+                    const selectedRole = e.target.value === '1' ? 1 : 0; 
+                    setRole(selectedRole);
+                }} className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3">
+                    <option value="0">Teacher</option>
+                    <option value="1">Parent</option>
+                </select>
+
                 <button type="submit" className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors duration-300">Register</button>
               </form>
             </>
