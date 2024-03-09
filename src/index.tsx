@@ -4,13 +4,15 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import AboutUs from './components/AboutUs/AboutUs';
+import LoginRegister from './components/LoginRegister/LoginRegister';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Routes>
         <Route path="/" element={<App />} /> 
-        <Route path="/about" element={<AboutUs />} /> 
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/login" element={<LoginRegister />} /> 
       </Routes>
     </Router>
   </React.StrictMode>,
