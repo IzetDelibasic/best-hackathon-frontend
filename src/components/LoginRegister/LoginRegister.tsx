@@ -1,40 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { backgroundImage } from '../../constants/ImagesConstants';
-import { Link } from 'react-router-dom';
-
-interface UserData {
-  email: string;
-  password: string;
-  firstName?: string;
-  lastName?: string;
-  role?: number;
-}
 
 const LoginRegister: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [role, setRole] = useState<number>(1); 
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
-
-
-  const handleToggleForm = () => {
-    setIsLogin(!isLogin);
-    setEmail('');
-    setPassword('');
-    setFirstName('');
-    setLastName('');
-    setRole(1);
-    setErrorMessage('');
-  };
+  const [role, setRole] = useState(1);
+  const [isLogin, setIsLogin] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userData: UserData = { email, password };
+      const userData = { email, password };
       const response = await fetch('http://localhost:5214/api/User/login', {
         method: 'POST',
         headers: {
@@ -42,14 +23,16 @@ const LoginRegister: React.FC = () => {
         },
         body: JSON.stringify(userData)
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message);
       }
-  
-      // Umjesto useHistory, koristimo window.location.href za preusmjeravanje
-      window.location.href = '/'; // Preusmjeravanje na početnu stranicu
+
+      // Sačuvaj podatke u localStorage
+      const userDataJson = await response.json();
+      localStorage.setItem('loggedInUserData', JSON.stringify(userDataJson));
+      navigate('/teach-room');
     } catch (error: any) {
       setErrorMessage(error.message);
     }
@@ -58,7 +41,7 @@ const LoginRegister: React.FC = () => {
   const handleRegisterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userData: UserData = { email, password, firstName, lastName, role };
+      const userData = { email, password, firstName, lastName, role };
       const response = await fetch('http://localhost:5214/api/User/register', {
         method: 'POST',
         headers: {
@@ -74,9 +57,18 @@ const LoginRegister: React.FC = () => {
 
       setIsLogin(true);
       setErrorMessage('Registration successful. Please log in.');
+
+      // Sačuvaj podatke u localStorage
+      const userDataJson = await response.json();
+      localStorage.setItem('loggedInUserData', JSON.stringify(userDataJson));
+      navigate('/teach-room');
     } catch (error: any) {
       setErrorMessage(error.message);
     }
+  };
+
+  const handleToggleForm = () => {
+    setIsLogin(!isLogin);
   };
 
   return (

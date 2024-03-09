@@ -1,20 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
-import './index.css';
-import App from './App';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TeachRoom from './components/TeachRoom/TeachRoom';
 import AboutUs from './components/AboutUs/AboutUs';
 import LoginRegister from './components/LoginRegister/LoginRegister';
+import HomePage from './components/HomePage/HomePage';
+import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route path="/" element={<App />} /> 
+        <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/login" element={<LoginRegister />} /> 
+        <Route path="/teach-room" element={<TeachRoom />} />
       </Routes>
     </Router>
   </React.StrictMode>,
-  document.body
+  document.getElementById('root')
 );
