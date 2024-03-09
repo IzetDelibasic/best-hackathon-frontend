@@ -1,19 +1,20 @@
 // - Constants -
 import { homePageWallpaper, backgroundImage } from "../../constants/ImagesConstants";
+// - Components -
+import HomePageAction from "../HomePageAction/HomePageAction";
+
 
 const HomePage = () => {
   return (
     <div className="h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
-      <div className="flex flex-col justify-center items-center">
-        <img className="w-[45%]" src={homePageWallpaper} alt="Header Logo" />
-        <p className="text-xl font-bold">HomePage</p>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Button 1</button>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Button 2</button>
+      <div className="flex flex-col justify-center items-center pt-[10rem]">
+        <div className="lg:w-[45%] w-[90%] relative">
+          <img className="w-full h-full border-white border-[0.3rem] mb-[1rem]" src={homePageWallpaper} alt="Header Logo" />
+        </div>
+        <HomePageAction />
       </div>
     </div>
   );
 }
 
 export default HomePage;
-
-
