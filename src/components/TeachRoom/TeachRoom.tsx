@@ -49,10 +49,10 @@ const TeachRoom: React.FC = () => {
                 <img className="md:h-[12rem] w-full object-cover md:w-[12rem]" src={avatarIcon} alt="Profile" />
             </div>
             <div className="p-[2rem] md:text-start text-center">
-                <div className="uppercase tracking-wide text-bluePurple font-medium font-workSans text-[1.2rem]">Profile</div>
-                <p className="mt-2 text-white font-montserrat">ID: {id}</p>
-                <p className="mt-2 text-white font-montserrat">Role: {roles === 0 ? 'Teacher' : 'Parent'}</p>
-                <p className="mt-2 text-white font-montserrat">Email: {email}</p>
+                <div className="uppercase tracking-wide text-bluePurple font-medium font-montserrat text-[1.4rem]">Profile</div>
+                <p className="mt-2 text-white font-montserrat"><strong>ID: </strong>{id}</p>
+                <p className="mt-2 text-white font-montserrat"><strong>Role: </strong> {roles === 0 ? 'Teacher' : 'Parent'}</p>
+                <p className="mt-2 text-white font-montserrat"><strong>Email: </strong> {email}</p>
             </div>
         </div>
         </div>

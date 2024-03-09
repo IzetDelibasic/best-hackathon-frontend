@@ -1,27 +1,90 @@
-// - React -
 import React, { useState, useEffect } from 'react';
-// - Icons -
 import { FaChalkboardTeacher } from "react-icons/fa";
-// - Constants -
 import { backgroundImage } from '../../constants/ImagesConstants';
 import { TeacherLinks } from '../../constants/TeacherLinks';
 import { ParentLinks } from '../../constants/ParentLinks';
 
-const Childs : React.FC = () => {
+const Childs: React.FC = () => {
     const storedUserData = localStorage.getItem('loggedInUserData');
-    const { email, id, roles } = storedUserData ? JSON.parse(storedUserData) : { email: '', id: '', roles: '' };
-  
-    const [links, setLinks] = useState<any[]>([]); 
-  
+    const { email, id: parentId, roles } = storedUserData ? JSON.parse(storedUserData) : { email: '', id: '', roles: '' };
+
+    const [links, setLinks] = useState<any[]>([]);
+    const [childName, setChildName] = useState('');
+    const [childSurname, setChildSurname] = useState('');
+    const [selectedParent, setSelectedParent] = useState<any | undefined>(undefined); // Explicitly set the type
+    const [parents, setParents] = useState<any[]>([]);
+    const [children, setChildren] = useState<any[]>([]);
+
     useEffect(() => {
-      if (roles === 0) {
-        setLinks(TeacherLinks);
-      } else if (roles === 1) {
-        setLinks(ParentLinks);
-      }
+        if (roles === 0) {
+            setLinks(TeacherLinks);
+            fetchParents();
+            fetchChildren();
+        } else if (roles === 1) {
+            setLinks(ParentLinks);
+        }
     }, [roles]);
-  return (
-    <div className="h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+
+    const fetchParents = async () => {
+        try {
+            const response = await fetch(`http://localhost:5214/api/User/get-parents`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch parents');
+            }
+            const data = await response.json();
+            setParents(data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const fetchChildren = async () => {
+        try {
+            const response = await fetch(`http://localhost:5214/api/Tests/get-childs-list`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch children');
+            }
+            const data = await response.json();
+            setChildren(data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    fetchChildren();
+
+    const handleChildSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        try {
+            const storedUserData = localStorage.getItem('loggedInUserData');
+            const { id: teacherId } = storedUserData ? JSON.parse(storedUserData) : { id: '' };
+
+            const response = await fetch('http://localhost:5214/api/User/child-add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    parentId: selectedParent?.id,
+                    childName,
+                    childSurname,
+                    teacherId
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add child');
+            }
+
+            setChildName('');
+            setChildSurname('');
+            setSelectedParent(null);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    return (
+        <div className="h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
             <div className="bg-bluePurple border-b-2 border-black border-opacity-20 font-montserrat" style={{ backgroundImage: `url(${backgroundImage})` }}>
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -42,9 +105,49 @@ const Childs : React.FC = () => {
                     </div>
                 </div>
             </div>
-            
+
+            {roles === 0 && (
+                <div className="flex justify-center items-center mt-4">
+                    <form onSubmit={handleChildSubmit} className="flex flex-col md:flex-row justify-between items-center w-[80%]">
+                        <select
+                            value={selectedParent?.id}
+                            onChange={(e) => setSelectedParent(parents.find(parent => parent.id == e.target.value))}
+                            className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
+                        >
+                            <option value="">Select Parent</option>
+                            {parents.map((parent: any) => (
+                                <option key={parent.id} value={parent.id}>{parent.nameMail}</option>
+                            ))}
+                        </select>
+                        <input
+                            type="text"
+                            placeholder="Child's Name"
+                            value={childName}
+                            onChange={(e) => setChildName(e.target.value)}
+                            className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Child's Surname"
+                            value={childSurname}
+                            onChange={(e) => setChildSurname(e.target.value)}
+                            className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
+                        />
+                        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors duration-300">Add Child</button>
+                    </form>
+                </div>
+            )}
+
+            <div className="mt-8">
+                <h2 className="text-lg font-semibold text-white mb-4">Children:</h2>
+                <ul>
+                    {children.map((child: any, index: number) => (
+                        <li key={index} className="text-white">{child.childName} {child.childSurname}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
-  )
+    );
 }
 
-export default Childs
+export default Childs;
