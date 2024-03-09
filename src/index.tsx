@@ -9,6 +9,9 @@ import LoginRegister from './components/LoginRegister/LoginRegister';
 import HomePage from './components/HomePage/HomePage';
 import WorkProgram from './components/WorkProgram/WorkProgram';
 import GeneratorAI from './components/GeneratorAI/GeneratorAI';
+import ParentsTests from './components/ParentsTests/ParentsTests';
+import TeacherTests from './components/TeacherTests/TeacherTests';
+import Childs from './components/Childs/Childs';
 // - Style -
 import './index.css';
 
@@ -22,6 +25,9 @@ ReactDOM.render(
         <Route path="/teach-room" element={<TeachRoom />} />
         <Route path="/work-program" element={<WorkProgram />} />
         <Route path="/teacher-tests" element={<GeneratorAI />} />
+        <Route path="/tests-all" element={<TeacherTests />} />
+        <Route path="/tests-parents" element={<ParentsTests />} />
+        <Route path="/childs" element={<Childs />} />
       </Routes>
     </Router>
   </React.StrictMode>,
