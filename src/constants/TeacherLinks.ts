@@ -19,4 +19,8 @@ export const TeacherLinks = [
       title: 'Child Add',
       href: '/childs',
     },
+    {
+      title: 'Logout',
+      href: '/',
+    },
   ];

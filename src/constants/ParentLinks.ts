@@ -7,4 +7,8 @@ export const ParentLinks = [
         title: 'Work Program',
         href: '/work-program',
       },
+      {
+        title: 'Logout',
+        href: '/',
+      },
   ];
