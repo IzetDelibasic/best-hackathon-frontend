@@ -3,14 +3,14 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 import { backgroundImage } from '../../constants/ImagesConstants';
 import { TeacherLinks } from '../../constants/TeacherLinks';
 import { ParentLinks } from '../../constants/ParentLinks';
-import WorkProgramConstant from '../../constants/WorkProgramConstant';
 
 const SuggestionsAI : React.FC = () => {
     const storedUserData = localStorage.getItem('loggedInUserData');
-    const { email, id, roles } = storedUserData ? JSON.parse(storedUserData) : { email: '', id: '', roles: '' };
-
+    const { email, roles } = storedUserData ? JSON.parse(storedUserData) : { email: '', roles: '' };
+    const [selectedChild, setSelectedChild] = useState<number | undefined>(undefined);
     const [links, setLinks] = useState<any[]>([]);
-
+    const [children, setChildren] = useState<any[]>([]);
+    
     useEffect(() => {
         if (roles === 0) {
             setLinks(TeacherLinks);
@@ -18,6 +18,52 @@ const SuggestionsAI : React.FC = () => {
             setLinks(ParentLinks);
         }
     }, [roles]);
+
+    useEffect(() => {
+        fetchChildren();
+    }, []);
+
+    const fetchChildren = async () => {
+        try {
+            const response = await fetch(`http://localhost:5214/api/Tests/get-childs-list`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch children');
+            }
+            const data = await response.json();
+            setChildren(data);
+        } catch (error) {
+            console.error('Error fetching children:', error);
+        }
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        try {
+            if (selectedChild !== undefined) {
+                const response = await fetch('http://localhost:5214/api/Tests/child-suggestion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(selectedChild),
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to submit suggestion');
+                }
+                console.log('Child suggestion submitted successfully');
+            } else {
+                console.error('Please select a child');
+            }
+        } catch (error) {
+            console.error('Error submitting child suggestion:', error);
+        }
+    };
+
+    const handleChildChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedChildId = parseInt(e.target.value);
+        setSelectedChild(selectedChildId);
+    };
+    
     
     return (
         <div className="min-h-screen bg-cover bg-center pb-10" style={{ backgroundImage: `url(${backgroundImage})` }}>
@@ -41,8 +87,23 @@ const SuggestionsAI : React.FC = () => {
                     </div>
                 </div>
             </div>
+            <div className="text-[3rem] font-medium text-white mb-4 text-center font-montserrat pt-[10rem]">For better future and learning from mistakes</div>
+            <div className="text-[1rem] font-normal text-white mb-4 text-center font-montserrat">Generate suggestions for children</div>
+            <form onSubmit={handleSubmit} className='flex flex-col md:flex-row justify-between w-[80%] mx-auto'>
+                <select
+                    value={selectedChild}
+                    onChange={handleChildChange}
+                    className="md:w-[80%] bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-4 md:mb-0"
+                >
+                    <option value="">Select Child</option>
+                    {children.map((child: any) => (
+                        <option key={child.id} value={child.id}>{child.childName}</option>
+                    ))}
+                </select>
+                <button type="submit" className="md:w-[15%] px-4 py-2 bg-bluePurple hover:bg-galaxy ease-in-out duration-300 text-white rounded-md hover:bg-opacity-80 focus:outline-none focus:bg-opacity-80">Submit</button>
+            </form>
         </div>
     )
 }
 
-export default SuggestionsAI
+export default SuggestionsAI;
