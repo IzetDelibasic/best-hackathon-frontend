@@ -108,11 +108,11 @@ const Childs: React.FC = () => {
 
             {roles === 0 && (
                 <div className="flex justify-center items-center mt-4">
-                    <form onSubmit={handleChildSubmit} className="flex flex-col md:flex-row justify-between items-center w-[80%]">
+                    <form onSubmit={handleChildSubmit} className="flex flex-col md:flex-row justify-between items-center w-[60%] border-white border-2 p-10" style={{ backgroundImage: `url(${backgroundImage})` }}>
                         <select
                             value={selectedParent?.id}
                             onChange={(e) => setSelectedParent(parents.find(parent => parent.id == e.target.value))}
-                            className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
+                            className="w-[25%] bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
                         >
                             <option value="">Select Parent</option>
                             {parents.map((parent: any) => (
@@ -124,16 +124,16 @@ const Childs: React.FC = () => {
                             placeholder="Child's Name"
                             value={childName}
                             onChange={(e) => setChildName(e.target.value)}
-                            className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
+                            className="w-[25%] bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
                         />
                         <input
                             type="text"
                             placeholder="Child's Surname"
                             value={childSurname}
                             onChange={(e) => setChildSurname(e.target.value)}
-                            className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
+                            className="w-[25%] bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
                         />
-                        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors duration-300">Add Child</button>
+                        <button type="submit" className="bg-bluePurple text-white py-3 px-4 rounded-lg hover:bg-galaxy transition-colors duration-300 w-[15%]">Add Child</button>
                     </form>
                 </div>
             )}
