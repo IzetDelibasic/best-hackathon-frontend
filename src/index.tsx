@@ -13,8 +13,10 @@ import ParentsTests from './components/ParentsTests/ParentsTests';
 import TeacherTests from './components/TeacherTests/TeacherTests';
 import SuggestionsAI from './components/SuggestionsAI/SuggestionsAI';
 import Childs from './components/Childs/Childs';
+import TestResults from './components/TestResults/TestResults';
 // - Style -
 import './index.css';
+
 
 ReactDOM.render(
   <React.StrictMode>
@@ -30,6 +32,7 @@ ReactDOM.render(
         <Route path="/tests-parents" element={<ParentsTests />} />
         <Route path="/childs" element={<Childs />} />
         <Route path="/suggestions" element={<SuggestionsAI />} />
+        <Route path="/test-results" element={<TestResults />} /> 
       </Routes>
     </Router>
   </React.StrictMode>,

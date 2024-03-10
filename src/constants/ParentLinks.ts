@@ -11,4 +11,8 @@ export const ParentLinks = [
         title: 'Logout',
         href: '/',
       },
+    {
+        title: 'Test Results',
+        href: '/test-results'
+    }
   ];
