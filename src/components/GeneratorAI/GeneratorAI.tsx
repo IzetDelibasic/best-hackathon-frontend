@@ -63,7 +63,7 @@ const GeneratorAI : React.FC = () => {
     
 
     return (
-        <div className="h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
             <div className="bg-bluePurple border-b-2 border-black border-opacity-20 font-montserrat" style={{ backgroundImage: `url(${backgroundImage})` }}>
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">

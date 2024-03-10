@@ -84,7 +84,7 @@ const Childs: React.FC = () => {
     };
 
     return (
-        <div className="h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
             <div className="bg-bluePurple border-b-2 border-black border-opacity-20 font-montserrat" style={{ backgroundImage: `url(${backgroundImage})` }}>
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -107,7 +107,7 @@ const Childs: React.FC = () => {
             </div>
 
             {roles === 0 && (
-                <div className="flex justify-center items-center mt-4">
+                <div className="flex justify-center items-center mt-[5rem]">
                     <form onSubmit={handleChildSubmit} className="flex flex-col md:flex-row justify-between items-center w-[60%] border-white border-2 p-10" style={{ backgroundImage: `url(${backgroundImage})` }}>
                         <select
                             value={selectedParent?.id}
@@ -137,15 +137,25 @@ const Childs: React.FC = () => {
                     </form>
                 </div>
             )}
-
-            <div className="mt-8">
-                <h2 className="text-lg font-semibold text-white mb-4">Children:</h2>
-                <ul>
-                    {children.map((child: any, index: number) => (
-                        <li key={index} className="text-white">{child.childName} {child.childSurname}</li>
-                    ))}
-                </ul>
-            </div>
+            <div className="py-8 w-[60%] mx-auto">
+                <h2 className="text-[3rem] font-semibold text-white mb-4 text-center font-workSans">Children:</h2>
+                <table className="min-w-full divide-y divide-gray-200 font-montserrat">
+                    <thead>
+                        <tr>
+                            <th className="bg-gray-800 text-white uppercase font-semibold text-sm px-6 py-3">Id</th>
+                            <th className="bg-gray-800 text-white uppercase font-semibold text-sm px-6 py-3">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody className="bg-gray-100 divide-y divide-gray-200">
+                        {children.map((child: any, index: number) => (
+                            <tr key={index}>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">{child.id}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">{child.childName}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>  
         </div>
     );
 }

@@ -11,6 +11,7 @@ import WorkProgram from './components/WorkProgram/WorkProgram';
 import GeneratorAI from './components/GeneratorAI/GeneratorAI';
 import ParentsTests from './components/ParentsTests/ParentsTests';
 import TeacherTests from './components/TeacherTests/TeacherTests';
+import SuggestionsAI from './components/SuggestionsAI/SuggestionsAI';
 import Childs from './components/Childs/Childs';
 // - Style -
 import './index.css';
@@ -28,6 +29,7 @@ ReactDOM.render(
         <Route path="/tests-all" element={<TeacherTests />} />
         <Route path="/tests-parents" element={<ParentsTests />} />
         <Route path="/childs" element={<Childs />} />
+        <Route path="/suggestions" element={<SuggestionsAI />} />
       </Routes>
     </Router>
   </React.StrictMode>,

@@ -4,6 +4,10 @@ export const TeacherLinks = [
       href: '/teacher-tests',
     },
     {
+      title: 'AI Suggestions',
+      href: '/suggestions',
+    },
+    {
       title: 'Tests',
       href: '/tests-all',
     },

@@ -3,121 +3,9 @@ import React, { useState, useEffect } from 'react';
 // - Icons -
 import { FaChalkboardTeacher } from "react-icons/fa";
 // -Constants -
-import { backgroundImage, avatarIcon } from '../../constants/ImagesConstants';
+import { backgroundImage } from '../../constants/ImagesConstants';
 import { TeacherLinks } from '../../constants/TeacherLinks';
 import { ParentLinks } from '../../constants/ParentLinks';
-
-// const TestAndChildForm: React.FC = () => {
-//     const [tests, setTests] = useState<any[]>([]);
-//     const [children, setChildren] = useState<any[]>([]);
-//     const [selectedTest, setSelectedTest] = useState<number | undefined>(undefined);
-//     const [selectedChild, setSelectedChild] = useState<number | undefined>(undefined);
-//     const [teacherFeedback, setTeacherFeedback] = useState<string>('');
-
-//     useEffect(() => {
-//         fetchTests();
-//         fetchChildren();
-//     }, []);
-
-//     const fetchTests = async () => {
-//         try {
-//             const response = await fetch(`http://localhost:5214/api/Tests/get-tests-list`);
-//             if (!response.ok) {
-//                 throw new Error('Failed to fetch tests');
-//             }
-//             const data = await response.json();
-//             setTests(data);
-//         } catch (error) {
-//             console.error('Error fetching tests:', error);
-//         }
-//     };
-
-//     const fetchChildren = async () => {
-//         try {
-//             const response = await fetch(`http://localhost:5214/api/Tests/get-childs-list`);
-//             if (!response.ok) {
-//                 throw new Error('Failed to fetch children');
-//             }
-//             const data = await response.json();
-//             setChildren(data);
-//         } catch (error) {
-//             console.error('Error fetching children:', error);
-//         }
-//     };
-
-//     const handleTestChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-//         const selectedTestId = parseInt(e.target.value);
-//         setSelectedTest(selectedTestId);
-//     };
-
-//     const handleChildChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-//         const selectedChildId = parseInt(e.target.value);
-//         setSelectedChild(selectedChildId);
-//     };
-
-//     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-//         event.preventDefault();
-//         if (selectedTest !== undefined && selectedChild !== undefined && teacherFeedback.trim() !== '') {
-//             try {
-//                 const requestBody = {
-//                     ChildId: selectedChild,
-//                     TestId: selectedTest,
-//                     TeacherFeedback: teacherFeedback
-//                 };
-//                 const response = await fetch('http://localhost:5214/api/Tests/teacher-feedback', {
-//                     method: 'POST',
-//                     headers: {
-//                         'Content-Type': 'application/json',
-//                     },
-//                     body: JSON.stringify(requestBody),
-//                 });
-//                 if (!response.ok) {
-//                     throw new Error('Failed to submit feedback');
-//                 }
-//                 console.log('Feedback submitted successfully');
-//             } catch (error) {
-//                 console.error('Error submitting feedback:', error);
-//             }
-//         } else {
-//             console.error('Please select a test, a child, and provide feedback');
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <form onSubmit={handleSubmit}>
-//                 <select
-//                     value={selectedTest}
-//                     onChange={handleTestChange}
-//                 >
-//                     <option value="">Select Test</option>
-//                     {tests.map((test: any) => (
-//                         <option key={test.id} value={test.id}>{test.name}</option>
-//                     ))}
-//                 </select>
-//                 <select
-//                     value={selectedChild}
-//                     onChange={handleChildChange}
-//                 >
-//                     <option value="">Select Child</option>
-//                     {children.map((child: any) => (
-//                         <option key={child.id} value={child.id}>{child.childName}</option>
-//                     ))}
-//                 </select>
-//                 <input 
-//                     type="text" 
-//                     placeholder="Feedback" 
-//                     value={teacherFeedback} 
-//                     onChange={(e) => setTeacherFeedback(e.target.value)}
-//                 />
-//                 <button type="submit">Submit</button>
-//             </form>
-//         </div>
-//     );
-// }
-
-// export default TestAndChildForm;
-
 
 const TestAndChildForm: React.FC = () => {
     const [tests, setTests] = useState<any[]>([]);
@@ -168,6 +56,7 @@ const TestAndChildForm: React.FC = () => {
             console.error('Error fetching children:', error);
         }
     };
+    
 
     const handleTestChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedTestId = parseInt(e.target.value);
@@ -208,7 +97,7 @@ const TestAndChildForm: React.FC = () => {
     };
 
     return (
-        <div className="h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})`}}>
+        <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})`}}>
       <div className="bg-bluePurple border-b-2 border-black border-opacity-20 font-montserrat" style={{ backgroundImage: `url(${backgroundImage})` }}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -230,11 +119,11 @@ const TestAndChildForm: React.FC = () => {
         </div>
       </div>
         <div className="flex flex-col justify-center items-center mt-4">
-            <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+            <form onSubmit={handleSubmit} className="flex flex-col justify-between items-center md:flex-row ">
                 <select
                     value={selectedTest}
                     onChange={handleTestChange}
-                    className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
+                    className="w-[25%] bg-gray-800 text-white border-none rounded-lg px-4 py-3"
                 >
                     <option value="">Select Test</option>
                     {tests.map((test: any) => (
@@ -244,7 +133,7 @@ const TestAndChildForm: React.FC = () => {
                 <select
                     value={selectedChild}
                     onChange={handleChildChange}
-                    className="w-full bg-gray-800 text-white border-none rounded-lg px-4 py-3 mb-2"
+                    className="w-[25%] bg-gray-800 text-white border-none rounded-lg px-4 py-3"
                 >
                     <option value="">Select Child</option>
                     {children.map((child: any) => (
@@ -256,11 +145,31 @@ const TestAndChildForm: React.FC = () => {
                     placeholder="Feedback" 
                     value={teacherFeedback} 
                     onChange={(e) => setTeacherFeedback(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-bluePurple mb-4 w-full" 
+                    className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-bluePurple w-[30%]" 
                 />
-                <button type="submit" className="px-4 py-2 bg-bluePurple text-white rounded-md hover:bg-opacity-80 focus:outline-none focus:bg-opacity-80">Submit</button>
+                <button type="submit" className="px-4 py-2 bg-bluePurple hover:bg-galaxy ease-in-out duration-300 text-white rounded-md hover:bg-opacity-80 focus:outline-none focus:bg-opacity-80">Submit</button>
             </form>
         </div>
+        <div className="py-8 w-[70%] mx-auto">
+            <h2 className="text-[3rem] font-semibold text-white mb-4 text-center font-workSans">Tests:</h2>
+            <table className="min-w-full divide-y divide-gray-200 font-montserrat">
+                <thead>
+                    <tr>
+                        <th className="bg-gray-800 text-white uppercase font-semibold text-sm px-6 py-3">Test ID</th>
+                        <th className="bg-gray-800 text-white uppercase font-semibold text-sm px-6 py-3">Test Name</th>
+                    </tr>
+                </thead>
+                <tbody className="bg-gray-100 divide-y divide-gray-200">
+                    {tests.map((test: any, index: number) => (
+                        <tr key={index}>
+                            <td className="px-6 py-4 whitespace-nowrap text-center">{test.id}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-center">{test.name}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>  
+
     </div>
     );
 }
